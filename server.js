@@ -1,13 +1,14 @@
-const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const app = express();
-
 // Config .env to ./config/config.env
 require('dotenv').config({
   path: './config/config.env'
 });
+
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const db = require('./config/db');
+const app = express();
 
 // Body Parser
 app.use(bodyParser.json());
@@ -25,15 +26,19 @@ app.use(morgan('dev'));
 
 //Load all routes
 
-// const authRouter = require('./routes/auth.route');
-// const retailerRouter = require('./routes/retailer.route');
-// const sommelierRouter = require('./routes/sommelier.route');
+const artistRouter = require('./routes/artist.route');
+const eventRouter = require('./routes/event.route');
+const ratingRouter = require('./routes/rating.route');
+const tipRouter = require('./routes/tip.route');
+const userRouter = require('./routes/user.route');
 
 
 //Use Routes
-// app.use('/api/', authRouter);
-// app.use('/api/', retailerRouter);
-// app.use('/api/', sommelierRouter);
+app.use('/fan/api/', artistRouter);
+app.use('/fan/api/', eventRouter);
+app.use('/fan/api/', ratingRouter);
+app.use('/fan/api/', tipRouter);
+app.use('/fan/api/', userRouter);
 
 app.use( (req, res, next) => {
   res.status(404).json({

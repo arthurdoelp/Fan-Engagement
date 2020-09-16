@@ -1,0 +1,57 @@
+.artist-card {
+    border: #cccccc solid 1px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.artist-name {
+    text-decoration: underline;
+}
+
+.tip-option {
+    height: 70px;
+    width: 70px;
+    line-height: 70px;
+    border: #cccccc solid 1px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    font-weight: 700;
+}
+
+.tip-option:hover {
+    background-color: #cccccc;
+    border: #7c7c7c solid 1px;
+}
+
+.tip-option input {
+    display: none;
+}
+
+/* .other-amount {
+    text-decoration: underline;
+}
+
+.other-amount-input {
+    font-size: 2em;
+    width: 50%;
+    padding: 0 .5em;
+    border: #cccccc solid 1px;
+    border-radius: 4px;
+    background-color: #ffffff;
+} */
+
+.venmo-button {
+    background-color: #3D95CE;
+    padding: .5em 1em;
+    border: none;
+    border-radius: 4px;
+    color: #ffffff;
+}
+
+.venmo-button:active {
+    background-color: #3d94cebb;
+}
+
+.venmo-button:enabled {
+    outline: none;
+}
