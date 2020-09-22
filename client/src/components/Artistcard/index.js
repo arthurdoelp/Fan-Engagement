@@ -9,8 +9,8 @@ function Artistcard(props) {
 
     // console.log(rating);
     const handleSetRating = i => {
-        // console.log(i)
         setRating(i)
+        props.handleAddRating(i, props.id)
     }
 
     const handleSetTip = i => {
@@ -23,14 +23,24 @@ function Artistcard(props) {
     // }
 
     return (
-        <div className="container artist-card">
+        <div className="container artist-card mt-4" key={props.id}>
             <div className="row">
-                <div className="col-6">
-                    <p className="artist-name">{props.artist_name}</p>
+                <div className="col text-left">
+                    <button className="artist-name" onClick={() => props.handleSelectArtist(props.id)}>{props.name}</button>
                 </div>
-                <div className="col-6">
+            </div>
+
+            <div className="row">
+                <div className="col-1"></div>
+                <div className="col-10">
                     {/* This where the social media icons will go */}
+                    <a href={props.facebook}><img className="social-media-links" src="./../../../images/Facebook.png" alt="Facebook" /></a>
+                    <a href={props.instagram}><img className="social-media-links" src="./../../../images/Instagram.png" alt="Instagram" /></a>
+                    <a href={props.twitter}><img className="social-media-links" src="./../../../images/Twitter.png" alt="Twitter" /></a>
+                    <a href={props.spotify}><img className="social-media-links" src="./../../../images/Spotify.png" alt="Spotify" /></a>
+                    <a href={props.soundcloud}><img className="social-media-links" src="./../../../images/Soundcloud.png" alt="Soundcloud" /></a>
                 </div>
+                <div className="col-1"></div>
             </div>
 
             {/* This is where the stars will go */}

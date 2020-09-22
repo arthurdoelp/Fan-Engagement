@@ -10,7 +10,7 @@ ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path='/' exact render={props => <App {...props} />} />
-      <Route path='/event' exact render={props => <Event {...props} />} />
+      <Route path='/event/:id' exact render={props => <Event {...props} />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')

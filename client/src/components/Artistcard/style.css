@@ -6,6 +6,21 @@
 
 .artist-name {
     text-decoration: underline;
+    background-color: transparent;
+    border: none;
+}
+
+.artist-name:active {
+    text-decoration: none;
+}
+
+.artist-name:enabled {
+    outline: none;
+}
+
+.social-media-links {
+    margin: .5em .25em;
+    width: 2em;
 }
 
 .tip-option {
