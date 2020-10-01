@@ -22,6 +22,7 @@
   "homepage": "https://github.com/arthurdoelp/Fan-Engagement#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "braintree": "^3.0.0",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

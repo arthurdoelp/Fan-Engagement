@@ -59,13 +59,32 @@ class Event extends Component {
             axios.post('/fan/api/rating/new', {
                 rating, eventId, artistId
             })
-            .then(res => {
-                console.log(res.data.ratingsAverage)
+                .then(res => {
+                    console.log(res.data.ratingsAverage)
+                })
+                .catch(err => {
+                    console.log(err)
+                    this.setState({ errorAlert: err.response.data.errors })
+                })
+        }
+
+        const handleVenmoPayment = (tip, venmo, artistId) => {
+            console.log("Tip Amount: " + tip);
+            console.log("Venmo: " + venmo);
+            axios.post('/fan/api/tip/new', {
+                tip, eventId, artistId
             })
-            .catch(err => {
-                console.log(err)
-                this.setState({ errorAlert: err.response.data.errors })
-            })
+                .then(res => {
+                    console.log(res.data.record);
+
+                    // window.location.href = `venmo://paycharge?txn=pay&amount=${tip}&recipients=${venmo}&note=Sofar%20Sounds%20Event`;
+                    window.location.href = `https://venmo.com/${venmo}?txn=pay&amount=${tip}&note=Sofar%20Sounds%20Event`;
+                    // https://www.npmjs.com/package/venmo?activeTab=readme This could be something to look into more in the future
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            // window.location.href = `venmo://paycharge?txn=pay&amount=${tip}&recipients=${venmo}&note=Sofar%20Sounds%20Event`;
         }
 
         return (
@@ -103,6 +122,7 @@ class Event extends Component {
                                     soundcloud={artist.artist.soundcloud}
                                     handleSelectArtist={handleSelectArtist}
                                     handleAddRating={handleAddRating}
+                                    handleVenmoPayment={handleVenmoPayment}
                                 />
                             ))}
                         </div>

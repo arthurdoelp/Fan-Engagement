@@ -124,8 +124,9 @@ function Artistcard(props) {
                         <div className="col text-center">
                             <button
                                 className="venmo-button"
+                                onClick={() => props.handleVenmoPayment(tip, props.venmo, props.id)}
                             >
-                                Venmo
+                                Tip with Venmo
                             </button>
                         </div>
                     </div>

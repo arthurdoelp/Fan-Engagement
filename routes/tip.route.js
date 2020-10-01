@@ -3,7 +3,7 @@ const router = express.Router();
 
 //Load Controllers
 const {
-    // registerController,
+    createNewTipController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -13,7 +13,7 @@ const {
     // deleteUserController
 } = require('../controllers/tip.controller.js')
 
-// router.post('/auth/register', validRegister, registerController);
+router.post('/tip/new', createNewTipController);
 // router.post('/auth/login', validLogin, loginController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);
