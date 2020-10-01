@@ -77,8 +77,8 @@ class Event extends Component {
                 .then(res => {
                     console.log(res.data.record);
 
-                    // window.location.href = `venmo://paycharge?txn=pay&amount=${tip}&recipients=${venmo}&note=Sofar%20Sounds%20Event`;
-                    window.location.href = `https://venmo.com/${venmo}?txn=pay&amount=${tip}&note=Sofar%20Sounds%20Event`;
+                    window.location.href = `venmo://paycharge?txn=pay&amount=${tip}&recipients=${venmo}&note=Sofar%20Sounds%20Event`;
+                    // window.location.href = `https://venmo.com/${venmo}?txn=pay&amount=${tip}&note=Sofar%20Sounds%20Event`;
                     // https://www.npmjs.com/package/venmo?activeTab=readme This could be something to look into more in the future
                 })
                 .catch(err => {
