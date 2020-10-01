@@ -106,7 +106,7 @@ class Event extends Component {
                         </div>
                     </div>
 
-                    <div className="row">
+                    <div className="row mb-5">
                         <div className="col-1"></div>
                         <div className="col-10">
                             {artists.map(artist => (

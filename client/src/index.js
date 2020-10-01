@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import App from './App';
 import Event from './pages/Event/index';
+import Artistprofile from './pages/Artistprofile/index';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -11,6 +12,7 @@ ReactDOM.render(
     <Switch>
       <Route path='/' exact render={props => <App {...props} />} />
       <Route path='/event/:id' exact render={props => <Event {...props} />} />
+      <Route path='/artist/:id' exact render={props => <Artistprofile {...props} />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')
