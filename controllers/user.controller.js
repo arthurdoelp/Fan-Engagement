@@ -119,10 +119,5 @@ exports.googleController = (req, res) => {
                     errors: 'Google login failed. Try again'
                 })
             }
-        }).catch(err => {
-            console.log(err);
-            res.status(400).json({
-                errors: "There was an issue verifying the Id Token with Google with the system"
-            })
         })
 }
