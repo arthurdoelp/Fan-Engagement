@@ -3,7 +3,7 @@ const router = express.Router();
 
 //Load Controllers
 const {
-    // registerController,
+    showArtistDetailsController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -13,7 +13,7 @@ const {
     // deleteUserController
 } = require('../controllers/artist.controller.js')
 
-// router.post('/auth/register', validRegister, registerController);
+router.post('/artist/details/show', showArtistDetailsController);
 // router.post('/auth/login', validLogin, loginController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);
