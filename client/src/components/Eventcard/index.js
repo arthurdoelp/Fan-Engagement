@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./style.css";
 
 function Eventcard(props) {
@@ -30,6 +30,7 @@ function Eventcard(props) {
                 </div>
                 <div className="col-6 text-right">
                     <p>{props.date}</p>
+                    <p>View More</p>
                 </div>
             </div>
         </div>

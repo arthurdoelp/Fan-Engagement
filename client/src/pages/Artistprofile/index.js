@@ -26,9 +26,6 @@ class Event extends Component {
             artistId
         })
             .then(res => {
-                console.log(res.data.events)
-                console.log(res.data.artist)
-                console.log(res.data.eventsList)
                 this.setState({
                     artist: res.data.artist,
                     events: res.data.events
@@ -45,7 +42,6 @@ class Event extends Component {
     }
 
     handleScrollToElement(event) {
-        // console.log(event.currentTarget.scrollY)
         if (event.currentTarget.scrollY > 0) {
             document.getElementsByClassName("artist-info")[0].style.paddingTop = "15px";
             document.getElementsByClassName("artist-info")[0].style.paddingBottom = "15px";
@@ -58,15 +54,9 @@ class Event extends Component {
         }
     }
 
-
     render() {
 
-        const { errorAlert, artistId, artist, events, bio } = this.state
-
-        // // Handle change from inputs
-        // const handleChange = e => {
-        //     this.setState({ [e.target.name]: e.target.value })
-        // }
+        const { errorAlert, artist, events, bio } = this.state
 
         const handleErrorAlert = e => {
             e.preventDefault()
@@ -83,43 +73,6 @@ class Event extends Component {
                 bio: !prevState.bio
             }));
         }
-
-        // const handleSelectArtist = id => {
-        //     console.log(id);
-        //     this.props.history.push(`/artist/${id}`)
-        // }
-
-        // const handleAddRating = (rating, artistId) => {
-        //     axios.post('/fan/api/rating/new', {
-        //         rating, eventId, artistId
-        //     })
-        //         .then(res => {
-        //             console.log(res.data.ratingsAverage)
-        //         })
-        //         .catch(err => {
-        //             console.log(err)
-        //             this.setState({ errorAlert: err.response.data.errors })
-        //         })
-        // }
-
-        // const handleVenmoPayment = (tip, venmo, artistId) => {
-        //     console.log("Tip Amount: " + tip);
-        //     console.log("Venmo: " + venmo);
-        //     axios.post('/fan/api/tip/new', {
-        //         tip, eventId, artistId
-        //     })
-        //         .then(res => {
-        //             console.log(res.data.record);
-
-        //             window.location.href = `venmo://paycharge?txn=pay&amount=${tip}&recipients=${venmo}&note=Sofar%20Sounds%20Event`;
-        //             // window.location.href = `https://venmo.com/${venmo}?txn=pay&amount=${tip}&note=Sofar%20Sounds%20Event`;
-        //             // https://www.npmjs.com/package/venmo?activeTab=readme This could be something to look into more in the future
-        //         })
-        //         .catch(err => {
-        //             console.log(err)
-        //         })
-        //     // window.location.href = `venmo://paycharge?txn=pay&amount=${tip}&recipients=${venmo}&note=Sofar%20Sounds%20Event`;
-        // }
 
         return (
             <div>
@@ -183,7 +136,6 @@ class Event extends Component {
                                         handleSelectEvent={handleSelectEvent}
                                     />
                                 ))}
-
                             </div>
                             <div className="text-center mt-4">
                                 <h5>Joined: {moment(artist.createdAt).format('MM/DD/YY')}</h5>

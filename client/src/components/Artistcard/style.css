@@ -42,19 +42,6 @@
     display: none;
 }
 
-/* .other-amount {
-    text-decoration: underline;
-}
-
-.other-amount-input {
-    font-size: 2em;
-    width: 50%;
-    padding: 0 .5em;
-    border: #cccccc solid 1px;
-    border-radius: 4px;
-    background-color: #ffffff;
-} */
-
 .venmo-button {
     background-color: #3D95CE;
     padding: .5em 1em;

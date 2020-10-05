@@ -3,7 +3,8 @@ const router = express.Router();
 
 //Load Controllers
 const {
-    // registerController,
+    registerArtistController,
+    googleController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -13,8 +14,8 @@ const {
     // deleteUserController
 } = require('../controllers/user.controller.js')
 
-// router.post('/auth/register', validRegister, registerController);
-// router.post('/auth/login', validLogin, loginController);
+router.post('/artist/register', registerArtistController);
+router.post('/auth/google', googleController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);
 // router.put('/auth/password/reset', resetPasswordValidator, resetPasswordController);
