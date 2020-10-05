@@ -266,15 +266,15 @@ class Artistregister extends Component {
                                                             <button
                                                                 onClick={renderProps.onClick}
                                                                 disabled={renderProps.disabled}
-                                                                className=''
+                                                                className='auth-btn'
                                                             >
-                                                                <div className=' p-2 rounded-full '>
+                                                                {/* <div className=' p-2 rounded-full '>
                                                                     <i className='fab fa-google ' />
-                                                                </div>
-                                                                <span className='ml-4'>Sign In with Google</span>
+                                                                </div> */}
+                                                                <span>Sign In with Google</span>
                                                             </button>
                                                         )}
-                                                    ></GoogleLogin>
+                                                    ></GoogleLogin><br></br>
                                                     <button>Sign up with Instagram</button>
                                                 </div>
                                             </div>
