@@ -7,6 +7,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const bcrypt = require('bcrypt');
 const { OAuth2Client } = require('google-auth-library');
+const fetch = require('node-fetch');
 // const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
@@ -90,22 +91,26 @@ exports.googleController = (req, res) => {
                         });
                     } else {
                         let password = email + process.env.JWT_SECRET;
-                        User.create({ name, email, password })
-                            .then(newUser => {
-                                const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
-                                    expiresIn: '7d'
-                                });
-                                const { id, email, name, role } = newUser;
-                                return res.json({
-                                    token,
-                                    user: { id, email, name, role }
+                        const role = "artist";
+                        bcrypt.hash(password, 10, (err, hash) => {
+                            password = hash;
+                            User.create({ email, password, role })
+                                .then(newUser => {
+                                    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+                                        expiresIn: '7d'
+                                    });
+                                    const { id, email, name, role } = newUser;
+                                    return res.json({
+                                        token,
+                                        user: { id, email, name, role }
+                                    })
+                                }).catch(err => {
+                                    console.log(err);
+                                    res.status(400).json({
+                                        errors: 'User signup failed with google'
+                                    })
                                 })
-                            }).catch(err => {
-                                console.log(err);
-                                res.status(400).json({
-                                    errors: 'User signup failed with google'
-                                })
-                            })
+                        })
                     }
                 }).catch(err => {
                     console.log(err);
@@ -120,4 +125,72 @@ exports.googleController = (req, res) => {
                 })
             }
         })
+}
+
+// Facebook Login
+exports.facebookController = (req, res) => {
+    const { userID, accessToken } = req.body;
+
+    const url = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,email&access_token=${accessToken}`;
+
+    return (
+        fetch(url, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(response => {
+            const { email, name } = response;
+            User.findOne({
+                where: {
+                    email: email
+                }
+            }).then(user => {
+                if(user) {
+                    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+                        expiresIn: '7d'
+                    });
+                    const { id, email, name, role } = user;
+                    return res.json({
+                        token,
+                        user: { id, email, name, role }
+                    });
+                } else {
+                    let password = email + process.env.JWT_SECRET;
+                    const role = "artist";
+                    bcrypt.hash(password, 10, (err, hash) => {
+                        password = hash;
+                        User.create({ email, password, role })
+                        .then(newUser => {
+                            const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+                                expiresIn: '7d'
+                            });
+                            const { id, email, role } = newUser;
+                            return res.json({
+                                token,
+                                user: { id, email, role }
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            return res.status(400).json({
+                                errors: 'User signup failed with facebook'
+                            })
+                        })
+                    })
+                }
+            }).catch(err => {
+                console.log(err);
+                console.log("There was issue find the user of that email in the system")
+                return res.status(400).json({
+                    errors: "There was issue find the user of that email in the system"
+                })
+            })
+        }).catch(err => {
+            console.log(err);
+            console.log("Facebook Login Failed. There was an issue with the request to the Facebook api in their system")
+            return res.status(400).json({
+                errors: "Facebook Login Failed. There was an issue with the request to the Facebook api in their system"
+            })
+        })
+    )
 }

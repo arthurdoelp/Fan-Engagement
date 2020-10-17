@@ -5,6 +5,7 @@ const router = express.Router();
 const {
     registerArtistController,
     googleController,
+    facebookController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -16,6 +17,7 @@ const {
 
 router.post('/artist/register', registerArtistController);
 router.post('/auth/google', googleController);
+router.post('/auth/facebook', facebookController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);
 // router.put('/auth/password/reset', resetPasswordValidator, resetPasswordController);

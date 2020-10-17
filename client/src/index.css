@@ -14,7 +14,7 @@ code {
 
 .submit-button {
   font-weight: 600;
-  padding: .5em 1em;
+  padding: .75em 1.5em;
   color: white;
   background-color: #039842;
   border-radius: 4px;
@@ -23,30 +23,21 @@ code {
 }
 
 .submit-button:disabled {
-  padding: .5em 1em;
   color: rgba(0, 0, 0, 0.404);
   background-color: #cccccccc;
-  border-radius: 4px;
   border-color: #cccccccc;
-  border-style: none;
 }
 
 .submit-button:enabled:hover {
-  padding: .5em 1em;
   color: white;
   background-color: #03be51;
-  border-radius: 4px;
   border-color: #03be51;
-  border-style: none;
 }
 
 .submit-button:active {
-  padding: .5em 1em;
   color: white;
   background-color: #02aa48;
-  border-radius: 4px;
   border-color: #02aa48;
-  border-style: none;
   outline: none;
 }
 
@@ -77,8 +68,9 @@ code {
 
 .auth-btn {
   border: solid 1px #cccccc;
-  padding: 1em 1.5em;
+  padding: .75em 1em;
   border-radius: 4px;
   background-color: #f9f9f9;
-  margin: 1em 0;
+  margin: .5em 0;
+  width: 85%;
 }

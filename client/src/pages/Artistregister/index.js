@@ -3,6 +3,8 @@ import { isAuth, authenticate } from '../../helpers/auth';
 import axios from 'axios';
 import Alert from '../../components/Alert/index';
 import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+// import { FaStar } from 'react-icons/fa';
 // import { Redirect } from 'react-router-dom';
 
 class Artistregister extends Component {
@@ -122,10 +124,29 @@ class Artistregister extends Component {
             });
         };
 
+        const sendFacebookToken = (userID, accessToken) => {
+            axios.post('/fan/api/auth/facebook', {
+                userID, accessToken
+            }).then(res => {
+                console.log(res.data)
+                informParent(res);
+            }).catch(err => {
+                console.log(err.response.data.errors);
+                this.setState({ errorAlert: err.response.data.errors });
+            })
+        }
+
+        // Get response from Google
         const responseGoogle = response => {
             console.log(response);
             sendGoogleToken(response.tokenId);
         };
+
+        // Get response from Facebook
+        const responseFacebook = response => {
+            console.log(response);
+            sendFacebookToken(response.userID, response.accessToken);
+        }
 
         return (
             <div>
@@ -254,9 +275,6 @@ class Artistregister extends Component {
 
                                             <div className="form-row">
                                                 <div className="col text-center">
-                                                    <button>Sign up with Facebook</button><br></br>
-                                                    <button>Sign up with Twitter</button><br></br>
-                                                    <button>Sign up with Google</button><br></br>
                                                     <GoogleLogin
                                                         clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
                                                         onSuccess={responseGoogle}
@@ -267,15 +285,28 @@ class Artistregister extends Component {
                                                                 onClick={renderProps.onClick}
                                                                 disabled={renderProps.disabled}
                                                                 className='auth-btn'
+                                                                style={{ fontSize: '20px' }}
                                                             >
-                                                                {/* <div className=' p-2 rounded-full '>
-                                                                    <i className='fab fa-google ' />
-                                                                </div> */}
-                                                                <span>Sign In with Google</span>
+                                                                <i className="fa fa-google" ></i>
+                                                                <span> Sign Up with Google</span>
                                                             </button>
                                                         )}
                                                     ></GoogleLogin><br></br>
-                                                    <button>Sign up with Instagram</button>
+                                                    <FacebookLogin
+                                                        appId={`${process.env.REACT_APP_FACEBOOK_CLIENT}`}
+                                                        autoLoad={false}
+                                                        callback={responseFacebook}
+                                                        render={renderProps => (
+                                                            <button
+                                                                onClick={renderProps.onClick}
+                                                                className='auth-btn'
+                                                                style={{ fontSize: '20px' }}
+                                                            >
+                                                                <i className="fa fa-facebook" ></i>
+                                                                <span> Sign Up with Facebook</span>
+                                                            </button>
+                                                        )}
+                                                    />
                                                 </div>
                                             </div>
 
