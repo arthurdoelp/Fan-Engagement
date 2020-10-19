@@ -87,7 +87,8 @@ exports.googleController = (req, res) => {
                         const { id, email, name, role } = user;
                         return res.json({
                             token,
-                            user: { id, email, name, role }
+                            user: { id, email, name, role },
+                            new: false
                         });
                     } else {
                         let password = email + process.env.JWT_SECRET;
@@ -102,7 +103,8 @@ exports.googleController = (req, res) => {
                                     const { id, email, name, role } = newUser;
                                     return res.json({
                                         token,
-                                        user: { id, email, name, role }
+                                        user: { id, email, name, role },
+                                        new: true
                                     })
                                 }).catch(err => {
                                     console.log(err);
@@ -137,60 +139,101 @@ exports.facebookController = (req, res) => {
         fetch(url, {
             method: 'GET'
         })
-        .then(response => response.json())
-        .then(response => {
-            const { email, name } = response;
-            User.findOne({
-                where: {
-                    email: email
-                }
-            }).then(user => {
-                if(user) {
-                    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-                        expiresIn: '7d'
-                    });
-                    const { id, email, name, role } = user;
-                    return res.json({
-                        token,
-                        user: { id, email, name, role }
-                    });
-                } else {
-                    let password = email + process.env.JWT_SECRET;
-                    const role = "artist";
-                    bcrypt.hash(password, 10, (err, hash) => {
-                        password = hash;
-                        User.create({ email, password, role })
-                        .then(newUser => {
-                            const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
-                                expiresIn: '7d'
-                            });
-                            const { id, email, role } = newUser;
-                            return res.json({
-                                token,
-                                user: { id, email, role }
-                            })
+            .then(response => response.json())
+            .then(response => {
+                const { email, name } = response;
+                User.findOne({
+                    where: {
+                        email: email
+                    }
+                }).then(user => {
+                    if (user) {
+                        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+                            expiresIn: '7d'
+                        });
+                        const { id, email, name, role } = user;
+                        return res.json({
+                            token,
+                            user: { id, email, name, role },
+                            new: false
+                        });
+                    } else {
+                        let password = email + process.env.JWT_SECRET;
+                        const role = "artist";
+                        bcrypt.hash(password, 10, (err, hash) => {
+                            password = hash;
+                            User.create({ email, password, role })
+                                .then(newUser => {
+                                    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+                                        expiresIn: '7d'
+                                    });
+                                    const { id, email, role } = newUser;
+                                    return res.json({
+                                        token,
+                                        user: { id, email, role },
+                                        new: true
+                                    })
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                    return res.status(400).json({
+                                        errors: 'User signup failed with facebook'
+                                    })
+                                })
                         })
-                        .catch(err => {
-                            console.log(err)
-                            return res.status(400).json({
-                                errors: 'User signup failed with facebook'
-                            })
-                        })
+                    }
+                }).catch(err => {
+                    console.log(err);
+                    console.log("There was issue find the user of that email in the system")
+                    return res.status(400).json({
+                        errors: "There was issue find the user of that email in the system"
                     })
-                }
+                })
             }).catch(err => {
                 console.log(err);
-                console.log("There was issue find the user of that email in the system")
+                console.log("Facebook Login Failed. There was an issue with the request to the Facebook api in their system")
                 return res.status(400).json({
-                    errors: "There was issue find the user of that email in the system"
+                    errors: "Facebook Login Failed. There was an issue with the request to the Facebook api in their system"
                 })
             })
-        }).catch(err => {
-            console.log(err);
-            console.log("Facebook Login Failed. There was an issue with the request to the Facebook api in their system")
-            return res.status(400).json({
-                errors: "Facebook Login Failed. There was an issue with the request to the Facebook api in their system"
-            })
-        })
     )
+}
+
+exports.loginArtistController = (req, res) => {
+    const { email, password } = req.body;
+    console.log(email, password);
+
+    User.findOne({
+        where: {
+            email: email
+        }
+    }).then(user => {
+        if (user) {
+            if (bcrypt.compareSync(password, user.password)) {
+                // then create a login token that will expire in 7 days
+                let token = jwt.sign(user.dataValues, process.env.JWT_SECRET, {
+                    expiresIn: '7d'
+                })
+                // Send that token to the frontend along with the user
+                return res.json({
+                    token,
+                    user: user
+                })
+            } else {
+                res.status(400).json({
+                    errors: "The email or password is incorrect."
+                })
+            }
+        } else {
+            // If there is no user in the DB by that email
+            res.status(400).json({
+                errors: "That email does not exist."
+            })
+        }
+    }).catch(err => {
+        console.log(err)
+        res.status(400).json({
+            errors: "There is an error with checking the system."
+        })
+    })
 }

@@ -6,6 +6,7 @@ import App from './App';
 import Event from './pages/Event/index';
 import Artistprofile from './pages/Artistprofile/index';
 import Artistregister from './pages/Artistregister/index';
+import Artistlogin from './pages/Artistlogin/index';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -15,6 +16,7 @@ ReactDOM.render(
       <Route path='/event/:id' exact render={props => <Event {...props} />} />
       <Route path='/artist/:id' exact render={props => <Artistprofile {...props} />} />
       <Route path='/register/artist' exact render={props => <Artistregister {...props} />} />
+      <Route path='/login/artist' exact render={props => <Artistlogin {...props} />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')

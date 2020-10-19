@@ -6,7 +6,7 @@ import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 // import { Redirect } from 'react-router-dom';
 
-class Artistregister extends Component {
+class Artistlogin extends Component {
     constructor() {
         super()
         this.state = {
@@ -76,12 +76,11 @@ class Artistregister extends Component {
             // This if statement is a fallback for if for some reason the user is able to click the disabled button,
             // in order to post the same conditions of all fields and validations need to apply
             if (email && password && hasNum && hasSpecial && hasMin) {
-                axios.post('/fan/api/artist/register', {
+                axios.post('/fan/api/artist/login', {
                     email, password
                 }).then(res => {
-                    console.log(res.data.success)
-                    console.log(res.data.errors)
                     console.log(res.data.user)
+                    const id = res.data.user.id
                     this.setState({
                         password: ''
                     });
@@ -90,7 +89,7 @@ class Artistregister extends Component {
 
                     if (isAuth()) {
                         // Direct the page to the create artist profile page
-                        this.props.history.push('/profile/artist/create');
+                        this.props.history.push(`/artist/${id}`);
                     }
                 })
                     .catch(err => {
@@ -171,7 +170,7 @@ class Artistregister extends Component {
                                         {/* <img src="./../../images/Brits-Wine-Logo-200w.png" alt="Sofar Sounds Logo" width="100px" className="mt-3 mb-3" /> */}
                                         <h6>Artist</h6>
                                         <h3>
-                                            Sign Up
+                                            Login
                                         </h3>
                                     </div>
                                 </div>
@@ -258,7 +257,7 @@ class Artistregister extends Component {
                                                             hasSpecial &&
                                                             hasNum ?
                                                             false : true}>
-                                                        Register
+                                                        Login
                                                     </button>
                                                 </div>
                                             </div>
@@ -290,7 +289,7 @@ class Artistregister extends Component {
                                                                 style={{ fontSize: '20px' }}
                                                             >
                                                                 <i className="fa fa-google" ></i>
-                                                                <span> Sign Up with Google</span>
+                                                                <span> Login with Google</span>
                                                             </button>
                                                         )}
                                                     ></GoogleLogin><br></br>
@@ -305,26 +304,22 @@ class Artistregister extends Component {
                                                                 style={{ fontSize: '20px' }}
                                                             >
                                                                 <i className="fa fa-facebook" ></i>
-                                                                <span> Sign Up with Facebook</span>
+                                                                <span> Login with Facebook</span>
                                                             </button>
                                                         )}
                                                     />
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </form>
                                     <div className="col-lg-2 col-md-1 col-sm-1"></div>
                                 </div>
                             </div>
                             <div className="text-center mt-3">
-                                <p>Already have an account? <a href='/login/artist'>Login</a></p>
+                                <p>Don't have an account? <a href='/register/artist'>Sign up!</a></p>
                             </div>
                         </div>
-                        <div className="col-lg-3 col-md-1">
-
-                        </div>
+                        <div className="col-lg-3 col-md-1"></div>
                     </div>
                 </div>
             </div>
@@ -332,4 +327,4 @@ class Artistregister extends Component {
     }
 }
 
-export default Artistregister;
+export default Artistlogin;
