@@ -63,3 +63,54 @@ exports.showArtistDetailsController = (req, res) => {
         })
     }
 }
+
+exports.createArtistProfileController = (req, res) => {
+    const { userId, name, city, genre, bio, venmo, facebook, twitter, instagram, spotify, soundcloud, merchandise, other } = req.body;
+    console.log(userId, name, city, genre, bio, venmo, facebook, twitter, instagram, spotify, soundcloud, merchandise, other);
+
+    if (userId, name && city && genre && bio && venmo) {
+        const newArtist = {
+            userId,
+            name,
+            city,
+            genre,
+            bio,
+            venmo,
+            facebook,
+            twitter,
+            instagram,
+            spotify,
+            soundcloud,
+            merchandise,
+            otherLink: other
+        }
+
+        Artist.findOne({
+            where: {
+                [Op.or]: [
+                    { userId: userId },
+                    { name: name }
+                ]
+            }
+        }).then(existingArtist => {
+            if (!existingArtist) {
+                Artist.create(newArtist)
+                    .then(artist => {
+                        return res.json({
+                            artist
+                        })
+                    }).catch(err => {
+                        console.log(err)
+                        return res.status(400).json({
+                            errors: "There was an issue creating the new artist profile in the system."
+                        })
+                    })
+            } else {
+                console.log("This user is already associated with an artist profile or the Artist profile already exists")
+                return res.status(400).json({
+                    errors: "This user is already associated with an artist profile or the Artist profile already exists"
+                })
+            }
+        })
+    }
+}

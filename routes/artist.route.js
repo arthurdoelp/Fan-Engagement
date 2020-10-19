@@ -4,6 +4,7 @@ const router = express.Router();
 //Load Controllers
 const {
     showArtistDetailsController,
+    createArtistProfileController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -14,6 +15,7 @@ const {
 } = require('../controllers/artist.controller.js')
 
 router.post('/artist/details/show', showArtistDetailsController);
+router.post('/artist/create/profile', createArtistProfileController);
 // router.post('/auth/login', validLogin, loginController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);
