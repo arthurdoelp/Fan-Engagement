@@ -4,7 +4,7 @@ import axios from 'axios';
 import Alert from '../../components/Alert/index';
 import { Redirect } from 'react-router-dom';
 
-class Createartist extends Component {
+class Editartist extends Component {
     constructor() {
         super()
         this.state = {
@@ -30,6 +30,28 @@ class Createartist extends Component {
             const user = localStorage.getItem('user');
             const id = JSON.parse(user).id;
             this.setState({ userId: id });
+
+            axios.post('/fan/api/artist/edit/profile', {
+                id
+            }).then(res => {
+                console.log(res.data.artist)
+                this.setState({
+                    name: res.data.artist.name,
+                    city: res.data.artist.city,
+                    genre: res.data.artist.genre,
+                    bio: res.data.artist.bio,
+                    venmo: res.data.artist.venmo,
+                    facebook: res.data.artist.facebook,
+                    twitter: res.data.artist.twitter,
+                    instagram: res.data.artist.instagram,
+                    spotify: res.data.artist.spotify,
+                    soundcloud: res.data.artist.soundcloud,
+                    merchandise: res.data.artist.merchandise,
+                    other: res.data.artist.otherLink
+                })
+            }).catch(err => {
+                console.log(err)
+            })
         }
     }
 
@@ -351,4 +373,4 @@ class Createartist extends Component {
     }
 }
 
-export default Createartist;
+export default Editartist;

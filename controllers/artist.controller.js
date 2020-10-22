@@ -114,3 +114,31 @@ exports.createArtistProfileController = (req, res) => {
         })
     }
 }
+
+exports.editArtistProfileController = (req, res) => {
+    const { id } = req.body;
+    const userId = id;
+    console.log(userId);
+
+    if (userId) {
+        Artist.findOne({
+            where: {
+                userId: userId
+            },
+            attributes: ['userId', 'name', 'city', 'genre', 'bio', 'venmo', 'facebook', 'twitter', 'instagram', 'spotify', 'soundcloud', 'merchandise', 'otherLink']
+        }).then(artist => {
+            return res.json({
+                artist
+            })
+        }).catch(err => {
+            console.log(err)
+            return res.status(400).json({
+                errors: "There was an issue finding the artist profile in the system."
+            })
+        })
+    } else {
+        return res.status(400).json({
+            errors: "We did not receive the userId from the frontend"
+        })
+    }
+}

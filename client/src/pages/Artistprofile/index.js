@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './style.css';
 import axios from 'axios';
 import moment from 'moment';
+import { isAuth } from '../../helpers/auth';
 // import { Redirect, useHistory } from 'react-router-dom';
 import Alert from './../../components/Alert/index';
 import Eventcard from './../../components/Eventcard/index';
@@ -56,7 +57,7 @@ class Event extends Component {
 
     render() {
 
-        const { errorAlert, artist, events, bio } = this.state
+        const { errorAlert, artist, events, bio, artistId } = this.state
 
         const handleErrorAlert = e => {
             e.preventDefault()
@@ -72,6 +73,15 @@ class Event extends Component {
             this.setState(prevState => ({
                 bio: !prevState.bio
             }));
+        }
+
+        const handleEditArtist = e => {
+            console.log("Edit was clicked");
+            this.props.history.push(`/artist/${artistId}/edit`)
+        }
+
+        const handleDeleteArtist = e => {
+            console.log("Delete was clicked");
         }
 
         return (
@@ -102,6 +112,26 @@ class Event extends Component {
                             </div>
                             <div className="col-1"></div>
                         </div>
+                        {isAuth() ?
+                            <div className="row text-center mt-3">
+                                <div className="col-2"></div>
+                                <div className="col-4">
+                                    <button
+                                        type="button"
+                                        onClick={handleEditArtist}
+                                        className="edit-button"
+                                    >Edit</button>
+                                </div>
+                                <div className="col-4">
+                                    <button
+                                        type="button"
+                                        onClick={handleDeleteArtist}
+                                        className="delete-button"
+                                    >Delete</button>
+                                </div>
+                                <div className="col-2"></div>
+                            </div>
+                            : null}
                     </div>
 
                     <div className="row">
@@ -124,6 +154,7 @@ class Event extends Component {
                     <div className="row timeline-section">
                         <div className="col-1"></div>
                         <div className="col-10">
+
                             <div>
                                 {/* This is where the event timeline info will go */}
                                 {events.map(event => (

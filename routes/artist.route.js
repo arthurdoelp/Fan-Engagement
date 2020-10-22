@@ -5,6 +5,7 @@ const router = express.Router();
 const {
     showArtistDetailsController,
     createArtistProfileController,
+    editArtistProfileController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -16,6 +17,8 @@ const {
 
 router.post('/artist/details/show', showArtistDetailsController);
 router.post('/artist/create/profile', createArtistProfileController);
+router.post('/artist/edit/profile', editArtistProfileController);
+
 // router.post('/auth/login', validLogin, loginController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);
