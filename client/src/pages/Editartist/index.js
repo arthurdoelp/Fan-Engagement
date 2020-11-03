@@ -31,7 +31,7 @@ class Editartist extends Component {
             const id = JSON.parse(user).id;
             this.setState({ userId: id });
 
-            axios.post('/fan/api/artist/edit/profile', {
+            axios.post('/fan/api/artist/details/profile', {
                 id
             }).then(res => {
                 console.log(res.data.artist)
@@ -77,7 +77,7 @@ class Editartist extends Component {
             // This if statement is a fallback for if for some reason the user is able to click the disabled button,
             // in order to post the same conditions of all fields and validations need to apply
             if (userId && name && city && genre && bio && venmo) {
-                axios.post('/fan/api/artist/create/profile', {
+                axios.post('/fan/api/artist/edit/profile', {
                     userId, name, city, genre, bio, venmo, facebook, twitter, instagram, spotify, soundcloud, merchandise, other
                 }).then(res => {
                     console.log(res.data)
@@ -97,6 +97,10 @@ class Editartist extends Component {
                 // Display the error if there is an error
                 this.setState({ errorAlert: "Please fill all fields" })
             }
+        }
+
+        const handleCancel = e => {
+            this.props.history.push(`/artist/${userId}`);
         }
 
         return (
@@ -343,7 +347,15 @@ class Editartist extends Component {
 
                                             {/* Submit button - This will only be enabled when all of the conditions of the form are met */}
                                             <div className="form-row mt-4">
-                                                <div className="col text-center">
+                                                <div className="col-5 text-center">
+                                                    <button
+                                                        className="cancel-button"
+                                                        onClick={handleCancel}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                                <div className="col-7 text-center">
                                                     <button
                                                         type="submit"
                                                         className="submit-button"
@@ -355,7 +367,7 @@ class Editartist extends Component {
                                                             bio &&
                                                             venmo ?
                                                             false : true}>
-                                                        Create Profile
+                                                        Update Profile
                                                     </button>
                                                 </div>
                                             </div>

@@ -41,6 +41,35 @@ code {
   outline: none;
 }
 
+.cancel-button {
+  font-weight: 600;
+  padding: .75em 1.5em;
+  color: white;
+  background-color: #8a8a8a;
+  border-radius: 4px;
+  border-color: #8a8a8a;
+  border-style: none;
+}
+
+.cancel-button:disabled {
+  color: rgba(0, 0, 0, 0.404);
+  background-color: #cccccccc;
+  border-color: #cccccccc;
+}
+
+.cancel-button:enabled:hover {
+  color: white;
+  background-color: #6b6b6b;
+  border-color: #6b6b6b;
+}
+
+.cancel-button:active {
+  color: white;
+  background-color: #7e7e7e;
+  border-color: #7e7e7e;
+  outline: none;
+}
+
 .password-icon {
   position: absolute;
   top: 44px;

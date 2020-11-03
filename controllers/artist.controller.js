@@ -115,7 +115,7 @@ exports.createArtistProfileController = (req, res) => {
     }
 }
 
-exports.editArtistProfileController = (req, res) => {
+exports.detailsArtistProfileController = (req, res) => {
     const { id } = req.body;
     const userId = id;
     console.log(userId);
@@ -141,4 +141,39 @@ exports.editArtistProfileController = (req, res) => {
             errors: "We did not receive the userId from the frontend"
         })
     }
+}
+
+exports.editArtistProfileController = (req, res) => {
+    const { userId, name, city, genre, bio, venmo, facebook, twitter, instagram, spotify, soundcloud, merchandise, other } = req.body;
+    console.log(userId, name, city, genre, bio, venmo, facebook, twitter, instagram, spotify, soundcloud, merchandise, other);
+
+    Artist.update(
+        {
+            name: name,
+            city: city,
+            genre: genre,
+            bio: bio,
+            venmo: venmo,
+            facebook: facebook,
+            twitter: twitter,
+            instagram: instagram,
+            spotify: spotify,
+            soundcloud: soundcloud,
+            merchandise: merchandise,
+            otherLink: other
+        },
+        {
+            where: {
+                userId: userId
+            }
+        }).then(artist => {
+            return res.json({
+                artist
+            })
+        }).catch(err => {
+            console.log(err)
+            return res.status(400).json({
+                errors: "There was an issue finding the artist in the system"
+            })
+        })
 }
