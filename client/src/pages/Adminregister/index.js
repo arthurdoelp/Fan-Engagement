@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { isAuth, authenticate } from '../../helpers/auth';
 import axios from 'axios';
 import Alert from '../../components/Alert/index';
-import { GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 // import { Redirect } from 'react-router-dom';
 
-class Artistregister extends Component {
+class Adminregister extends Component {
     constructor() {
         super()
         this.state = {
@@ -76,7 +74,7 @@ class Artistregister extends Component {
             // This if statement is a fallback for if for some reason the user is able to click the disabled button,
             // in order to post the same conditions of all fields and validations need to apply
             if (email && password && hasNum && hasSpecial && hasMin) {
-                axios.post('/fan/api/artist/register', {
+                axios.post('/fan/api/admin/register', {
                     email, password
                 }).then(res => {
                     console.log(res.data.success)
@@ -88,9 +86,9 @@ class Artistregister extends Component {
 
                     authenticate(res, () => { })
 
-                    if (isAuth()) {
+                    if (isAuth() && res.data.user.role === "admin") {
                         // Direct the page to the create artist profile page
-                        this.props.history.push('/profile/artist/create');
+                        this.props.history.push('/admin/home');
                     }
                 })
                     .catch(err => {
@@ -101,53 +99,6 @@ class Artistregister extends Component {
                 // Display the error if there is an error
                 this.setState({ errorAlert: "Please fill all fields" })
             }
-        }
-
-        const sendGoogleToken = tokenId => {
-            axios.post('/fan/api/auth/google', {
-                idToken: tokenId
-            }).then(res => {
-                console.log(res.data);
-                informParent(res);
-            }).catch(err => {
-                console.log(err.response.data.errors);
-                this.setState({ errorAlert: err.response.data.errors });
-            })
-        }
-
-        const informParent = response => {
-            const id = response.data.user.id;
-            authenticate(response, () => {
-                if (isAuth() && !response.data.new) {
-                    this.props.history.push(`/artist/${id}`);
-                } else if (isAuth() && response.data.new) {
-                    this.props.history.push('/profile/artist/create');
-                }
-            });
-        };
-
-        const sendFacebookToken = (userID, accessToken) => {
-            axios.post('/fan/api/auth/facebook', {
-                userID, accessToken
-            }).then(res => {
-                console.log(res.data)
-                informParent(res);
-            }).catch(err => {
-                console.log(err.response.data.errors);
-                this.setState({ errorAlert: err.response.data.errors });
-            })
-        }
-
-        // Get response from Google
-        const responseGoogle = response => {
-            console.log(response);
-            sendGoogleToken(response.tokenId);
-        };
-
-        // Get response from Facebook
-        const responseFacebook = response => {
-            console.log(response);
-            sendFacebookToken(response.userID, response.accessToken);
         }
 
         return (
@@ -169,7 +120,7 @@ class Artistregister extends Component {
                                 <div className="row">
                                     <div className="col text-center">
                                         
-                                        <h6>Artist</h6>
+                                        <h6>Admin</h6>
                                         <h3>
                                             Sign Up
                                         </h3>
@@ -262,56 +213,6 @@ class Artistregister extends Component {
                                                     </button>
                                                 </div>
                                             </div>
-
-                                            <div className="form-row mt-4">
-                                                <div className="col text-center">
-                                                    <p>OR</p>
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row">
-                                                <div className="col">
-                                                    <hr></hr>
-                                                </div>
-                                            </div>
-
-                                            <div className="form-row">
-                                                <div className="col text-center">
-                                                    <GoogleLogin
-                                                        clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
-                                                        onSuccess={responseGoogle}
-                                                        onFailure={responseGoogle}
-                                                        cookiePolicy={'single_host_origin'}
-                                                        render={renderProps => (
-                                                            <button
-                                                                onClick={renderProps.onClick}
-                                                                disabled={renderProps.disabled}
-                                                                className='auth-btn'
-                                                                style={{ fontSize: '20px' }}
-                                                            >
-                                                                <i className="fa fa-google" ></i>
-                                                                <span> Sign Up with Google</span>
-                                                            </button>
-                                                        )}
-                                                    ></GoogleLogin><br></br>
-                                                    <FacebookLogin
-                                                        appId={`${process.env.REACT_APP_FACEBOOK_CLIENT}`}
-                                                        autoLoad={false}
-                                                        callback={responseFacebook}
-                                                        render={renderProps => (
-                                                            <button
-                                                                onClick={renderProps.onClick}
-                                                                className='auth-btn'
-                                                                style={{ fontSize: '20px' }}
-                                                            >
-                                                                <i className="fa fa-facebook" ></i>
-                                                                <span> Sign Up with Facebook</span>
-                                                            </button>
-                                                        )}
-                                                    />
-                                                </div>
-                                            </div>
-
                                         </div>
 
                                     </form>
@@ -319,7 +220,7 @@ class Artistregister extends Component {
                                 </div>
                             </div>
                             <div className="text-center mt-3">
-                                <p>Already have an account? <a href='/login/artist'>Login</a></p>
+                                <p>Already have an account? <a href='/login/admin'>Login</a></p>
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-1">
@@ -332,4 +233,4 @@ class Artistregister extends Component {
     }
 }
 
-export default Artistregister;
+export default Adminregister;

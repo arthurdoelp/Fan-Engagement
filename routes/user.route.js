@@ -7,6 +7,7 @@ const {
     googleController,
     facebookController,
     loginArtistController,
+    registerAdminController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -20,6 +21,7 @@ router.post('/artist/register', registerArtistController);
 router.post('/auth/google', googleController);
 router.post('/auth/facebook', facebookController);
 router.post('/artist/login', loginArtistController);
+router.post('/admin/register', registerAdminController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);
 // router.put('/auth/password/reset', resetPasswordValidator, resetPasswordController);

@@ -9,6 +9,7 @@ import Artistregister from './pages/Artistregister/index';
 import Artistlogin from './pages/Artistlogin/index';
 import Createartist from './pages/Createartist/index';
 import Editartist from './pages/Editartist/index';
+import Adminregister from './pages/Adminregister/index';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path='/login/artist' exact render={props => <Artistlogin {...props} />} />
       <Route path='/profile/artist/create' exact render={props => <Createartist {...props} />} />
       <Route path='/artist/:id/edit' exact render={props => <Editartist {...props} />} />
+      <Route path='/register/admin' exact render={props => <Adminregister {...props} />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')

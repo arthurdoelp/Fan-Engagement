@@ -237,3 +237,59 @@ exports.loginArtistController = (req, res) => {
         })
     })
 }
+
+exports.registerAdminController = (req, res) => {
+    const { email, password } = req.body;
+    console.log(email, password);
+    let emailDomain = email.replace(/.*@/, "");
+
+    const userData = {
+        email,
+        password,
+        role: 'admin'
+    }
+
+    if (emailDomain == "sofarsounds.com") {
+        bcrypt.hash(userData.password, 10, (err, hash) => {
+            userData.password = hash
+            User.findOrCreate({
+                where: {
+                    email: userData.email
+                },
+                defaults: {
+                    password: userData.password,
+                    role: userData.role
+                }
+            }).then(user => {
+                let token = jwt.sign(user[0].dataValues, process.env.JWT_SECRET, {
+                    expiresIn: '7d'
+                })
+                if (user[1] == true) {
+                    console.log("The user is a new user");
+                    res.json({
+                        success: "The user is a new user!",
+                        token,
+                        user: user[0]
+                    })
+
+                } else {
+                    console.log("Ther user is an existing user");
+                    res.status(400).json({
+                        errors: "This user already exists"
+                    })
+                }
+            })
+                .catch(err => {
+                    console.log(err)
+                    res.status(400).json({
+                        errors: "There was an issue searching the partne accounts table in the system. Please contact sales@britswine.com"
+                    })
+                })
+        })
+    } else {
+        console.log("The email domain is not a Sofar Sounds email address")
+        res.status(400).json({
+            errors: "The email must be a Sofar Sounds email address"
+        })
+    }
+}
