@@ -293,3 +293,42 @@ exports.registerAdminController = (req, res) => {
         })
     }
 }
+
+exports.loginAdminController = (req, res) => {
+    const { email, password } = req.body;
+    console.log(email, password);
+
+    User.findOne({
+        where: {
+            email: email
+        }
+    }).then(user => {
+        if (user) {
+            if (bcrypt.compareSync(password, user.password)) {
+                // then create a login token that will expire in 7 days
+                let token = jwt.sign(user.dataValues, process.env.JWT_SECRET, {
+                    expiresIn: '7d'
+                })
+                // Send that token to the frontend along with the user
+                return res.json({
+                    token,
+                    user: user
+                })
+            } else {
+                res.status(400).json({
+                    errors: "The email or password is incorrect."
+                })
+            }
+        } else {
+            // If there is no user in the DB by that email
+            res.status(400).json({
+                errors: "That email does not exist."
+            })
+        }
+    }).catch(err => {
+        console.log(err)
+        res.status(400).json({
+            errors: "There is an error with checking the system."
+        })
+    })
+}
