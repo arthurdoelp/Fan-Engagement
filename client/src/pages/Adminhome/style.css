@@ -1,0 +1,27 @@
+.vertical-menu {
+    height: 450px;
+    overflow-y: auto;
+    border: #cccccc solid 1px;
+    border-radius: 4px;
+}
+
+.vertical-menu button {
+    background-color: #ffffff;
+    border-bottom: #CCCCCC solid 1px;
+    display: block;
+    padding: .5em 2em;
+    text-decoration: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    text-align: left;
+}
+  
+.vertical-menu button:hover {
+    background-color: #f9f9f9;
+}
+
+.vertical-menu button:enabled {
+    outline: none;
+}

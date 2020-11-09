@@ -1,0 +1,22 @@
+.add-performer-button {
+    width: 100%;
+    padding: .5em 0;
+    border: #039842 dashed 1px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #039842;
+}
+
+.add-performer-button:hover {
+    border-color: #03be51;
+    color: #03be51;
+}
+
+.add-performer-button:focus {
+    outline: none;
+}
+
+.add-performer-button:disabled {
+    border-color: #03984179;
+    color: #03984179;
+}

@@ -56,3 +56,18 @@ exports.showEventDetailsController = (req, res) => {
         })
     }
 }
+
+exports.showAllEventsController = (req, res) => {
+    Event.findAll({
+        attributes: ['id', 'date', 'city', 'seats']
+    }).then(events => {
+        return res.json({
+            events
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(400).json({
+            errors: "There was an issue finding all of the events in the system"
+        })
+    })
+}

@@ -12,6 +12,7 @@ import Editartist from './pages/Editartist/index';
 import Adminregister from './pages/Adminregister/index';
 import Adminlogin from './pages/Adminlogin/index';
 import Adminhome from './pages/Adminhome/index';
+import Createevent from './pages/Createevent/index';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -27,6 +28,7 @@ ReactDOM.render(
       <Route path='/register/admin' exact render={props => <Adminregister {...props} />} />
       <Route path='/login/admin' exact render={props => <Adminlogin {...props} />} />
       <Route path='/admin/home' exact render={props => <Adminhome {...props} />} />
+      <Route path='/create/event' exact render={props => <Createevent {...props} />} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')

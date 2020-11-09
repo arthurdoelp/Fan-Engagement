@@ -4,6 +4,7 @@ const router = express.Router();
 //Load Controllers
 const {
     showEventDetailsController,
+    showAllEventsController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -14,6 +15,7 @@ const {
 } = require('../controllers/event.controller.js')
 
 router.post('/event/details/show', showEventDetailsController);
+router.post('/event/details/all', showAllEventsController);
 // router.post('/auth/login', validLogin, loginController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);
