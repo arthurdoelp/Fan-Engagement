@@ -4,6 +4,7 @@ import axios from 'axios';
 // import { Redirect, useHistory } from 'react-router-dom';
 import Artistcard from './../../components/Artistcard/index';
 import Alert from './../../components/Alert/index';
+import moment from 'moment';
 
 class Event extends Component {
     constructor() {
@@ -102,7 +103,7 @@ class Event extends Component {
                             <h2>Sofar Sounds Event</h2>
                             <h5>{event.city}</h5>
                             <h5>Seats: {event.seats}</h5>
-                            <h5>{event.date}</h5>
+                            <h5>{moment(event.date).format('MM/DD/YY')}</h5>
                         </div>
                     </div>
 

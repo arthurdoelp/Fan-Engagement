@@ -7,6 +7,7 @@ const {
     createArtistProfileController,
     detailsArtistProfileController,
     editArtistProfileController,
+    allArtistNamesController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -20,6 +21,7 @@ router.post('/artist/details/show', showArtistDetailsController);
 router.post('/artist/create/profile', createArtistProfileController);
 router.post('/artist/details/profile', detailsArtistProfileController);
 router.post('/artist/edit/profile', editArtistProfileController);
+router.post('/artist/names/all', allArtistNamesController);
 
 // router.post('/auth/login', validLogin, loginController);
 // router.post('/auth/activation', activationController);

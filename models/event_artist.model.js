@@ -1,5 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db");
+const Artist = require("./artist.model");
+const Event = require("./event.model");
 
 // Event_Artist Schema
 
@@ -11,8 +13,12 @@ module.exports = db.sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
-        artistId: {
-            type: Sequelize.INTEGER
+        artistUserId: {
+            type: Sequelize.INTEGER,
+            references: {
+                model: Artist,
+                key: 'userId'
+            }
         },
         eventId: {
             type: Sequelize.INTEGER

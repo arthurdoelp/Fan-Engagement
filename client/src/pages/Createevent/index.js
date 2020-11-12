@@ -13,21 +13,12 @@ class Createevent extends Component {
             userId: '',
             date: '',
             city: '',
-            genre: '',
-            bio: '',
-            venmo: '',
-            facebook: '',
-            twitter: '',
-            instagram: '',
-            spotify: '',
-            soundcloud: '',
-            merchandise: '',
-            other: '',
-            performerInputs: [],
+            address: '',
+            seats: '',
+            artists: [],
+            showArtists: false,
             performer: '',
-            performer1: '',
-            performer2: '',
-
+            performers: []
         }
     }
 
@@ -36,17 +27,41 @@ class Createevent extends Component {
             const user = localStorage.getItem('user');
             const id = JSON.parse(user).id;
             this.setState({ userId: id });
+
+            axios.post('/fan/api/artist/names/all', {
+            })
+                .then(res => {
+                    console.log(res.data.artists);
+                    this.setState({
+                        artists: res.data.artists
+                    });
+                })
+                .catch(err => {
+                    console.log(err)
+                    this.setState({ errorAlert: err.response.data.errors })
+                })
         }
     }
 
 
     render() {
 
-        const { errorAlert, userId, name, city, genre, bio, venmo, facebook, twitter, instagram, spotify, soundcloud, merchandise, other, performerInputs, performer, date } = this.state
+        const { errorAlert, userId, city, performer, date, address, seats, showArtists, performers } = this.state
 
         // Handle change from inputs
         const handleChange = e => {
             this.setState({ [e.target.name]: e.target.value })
+        }
+
+        const handlePerformerChange = e => {
+            this.setState({ showArtists: true })
+            this.setState({ [e.target.name]: e.target.value })
+        }
+
+        const handleBlur = e => {
+            if (performer === "") {
+                this.setState({ showArtists: false })
+            }
         }
 
         // Handles removing the alert message inclucing the alert message text from state whenever user clicks the "x" button
@@ -54,28 +69,24 @@ class Createevent extends Component {
             this.setState({ errorAlert: '' });
         }
 
-        // This will create a new row of input fields to add another coworker in the form
-        const renderPerformerInput = e => {
-            e.preventDefault()
-            // This will work as long as the total number of rows of inputs is less than 7
-            if (performerInputs.length <= 1) {
-                var newInput = performerInputs.length;
-                // Here we just want to concatenate the number of the row of inputs to the coworker inputs
-                this.setState(prevState => ({ performerInputs: prevState.performerInputs.concat([newInput]) }));
+        let filteredArtists = this.state.artists.filter(artist => {
+            return artist.name.toLowerCase().includes(this.state.performer.toLowerCase());
+        });
+
+        const handleSelectArtist = name => {
+            this.setState({ showArtists: false })
+            if (performers.includes(name) != 1) {
+                performers.push(name)
+                this.setState({
+                    performers: performers,
+                    performer: ''
+                })
             }
         }
 
-        // Handle removing the specific input values and input row tied to the "x" which the user clicked
-        // Basically this handles deleting an input row
-        const removeInput = i => {
-            // this uses es6 filter method to remove the row that was clicked on so the only rows displayed are the rows that were not deleted
-            var filteredInputs = performerInputs.filter(performerInput => performerInput !== i);
-            // Set the state of the coworker inputs which is the array to the filtered inputs defined above. Also set those input values of
-            // The deleted row back to an empty string so no random input values are sent to the backend
-            this.setState({
-                performerInputs: filteredInputs,
-                [`performer${i}`]: ''
-            });
+        const removePerformer = i => {
+            var filteredPerformers = performers.filter(performer => performer !== i);
+            this.setState({ performers: filteredPerformers })
         }
 
         // Submit data to backend
@@ -84,18 +95,18 @@ class Createevent extends Component {
             e.preventDefault()
             // This if statement is a fallback for if for some reason the user is able to click the disabled button,
             // in order to post the same conditions of all fields and validations need to apply
-            if (userId && name && city && genre && bio && venmo) {
-                axios.post('/fan/api/artist/create/profile', {
-                    userId, name, city, genre, bio, venmo, facebook, twitter, instagram, spotify, soundcloud, merchandise, other
+            if (userId && date && city && address && seats && performers) {
+                axios.post('/fan/api/event/create', {
+                    userId, date, city, address, seats, performers
                 }).then(res => {
                     console.log(res.data)
-                    const id = res.data.artist.userId
+                    const id = res.data.event.id
                     // this.setState({
                     //     password: ''
                     // });
 
-                    // Direct the page to the create artist profile page
-                    this.props.history.push(`/artist/${id}`);
+                    // Direct the page to the event page
+                    this.props.history.push(`/event/${id}`);
                 })
                     .catch(err => {
                         // Display the error if there is an error
@@ -134,7 +145,7 @@ class Createevent extends Component {
                                 {/* Register form inputs */}
                                 <div className="row mt-4">
                                     <div className="col-lg-2 col-md-1 col-sm-1"></div>
-                                    <form className="col-lg-8 col-md-10 col-sm-10" onSubmit={handleSubmit}>
+                                    <form className="col-lg-8 col-md-10 col-sm-10" onSubmit={handleSubmit} autoComplete="off">
                                         <div>
 
                                             {/* Event Date Input */}
@@ -174,58 +185,91 @@ class Createevent extends Component {
                                                 </div>
                                             </div>
 
-                                            {/* Performers Input */}
-                                            <div className="form-row mt-4">
+                                            {/* Address Input */}
+                                            <div className="form-row">
                                                 <div className="col">
                                                     <div className="form-group">
-                                                        <label>Performers</label>
+                                                        <label>Address</label>
                                                         <input
                                                             type="text"
                                                             className="form-control form-control-lg"
-                                                            placeholder="Enter performer"
-                                                            name="performer"
+                                                            placeholder="Enter address"
+                                                            name="address"
                                                             onChange={handleChange}
-                                                            value={performer}
+                                                            value={address}
                                                             required
                                                         />
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            {/* Map out the rows of coworker Inputs */}
-                                            {performerInputs.map(index =>
-                                                <div key={index}>
-                                                    <div className="form-row">
-                                                        <div className="col-11">
-                                                            <div className="form-group">
-                                                                <input
-                                                                    type="text"
-                                                                    className="form-control form-control-lg"
-                                                                    placeholder="Enter performer"
-                                                                    name={`performer${index.id}`}
-                                                                    onChange={handleChange}
-                                                                    required
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-1" onClick={() => removeInput(index)}>
-                                                            <span style={{ fontSize: "25px", cursor: "pointer" }}>&times;</span>
-                                                        </div>
+                                            {/* Seats Input */}
+                                            <div className="form-row">
+                                                <div className="col">
+                                                    <div className="form-group">
+                                                        <label>Seats</label>
+                                                        <input
+                                                            type="number"
+                                                            className="form-control form-control-lg"
+                                                            placeholder="Enter number of seats"
+                                                            name="seats"
+                                                            onChange={handleChange}
+                                                            value={seats}
+                                                            required
+                                                        />
                                                     </div>
                                                 </div>
-                                            )}
+                                            </div>
 
-                                            {/* Add more performers Button */}
+                                            {/* Performers Input */}
+                                            <div className="form-row">
+                                                <div className="col">
+                                                    <div className="form-group">
+                                                        <label>Performers</label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control form-control-lg"
+                                                            placeholder="Add performers"
+                                                            name="performer"
+                                                            onChange={handlePerformerChange}
+                                                            onBlur={handleBlur}
+                                                            value={performer}
+                                                            disabled={performers.length <= 2 ? false : true}
+                                                            required
+                                                        />
+                                                        <small>Add up to 3 performers</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {showArtists ?
+                                                <div className="vertical-menu">
+                                                    {filteredArtists.map(artist =>
+                                                        <div key={artist.name}>
+                                                            <button
+                                                                className="text-center"
+                                                                onClick={() => handleSelectArtist(artist.name)}
+                                                            >
+                                                                {artist.name}
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                : null}
+
                                             <div className="row">
                                                 <div className="col">
-                                                    <button
-                                                        type="button"
-                                                        className="add-performer-button"
-                                                        onClick={renderPerformerInput}
-                                                        disabled={performerInputs.length <= 1 ? false : true}
-                                                    >
-                                                        + Add more performers
-                                                    </button>
+                                                    {performers.map(performer =>
+                                                        <div key={performer}>
+                                                            <button
+                                                                className="performer-button"
+                                                                onClick={() => removePerformer(performer)}
+                                                            >
+                                                                {performer}
+                                                                <span style={{ marginLeft: "10px", cursor: "pointer", color: "#039842" }}>&times;</span>
+                                                            </button>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
 
@@ -239,7 +283,9 @@ class Createevent extends Component {
                                                         {userId &&
                                                             date &&
                                                             city &&
-                                                            performer ?
+                                                            address &&
+                                                            seats &&
+                                                            performers.length > 0 ?
                                                             false : true}>
                                                         Create Event
                                                     </button>

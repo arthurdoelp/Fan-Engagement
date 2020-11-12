@@ -8,11 +8,12 @@ module.exports = db.sequelize.define(
     {
         id: {
             type: Sequelize.INTEGER,
-            primaryKey: true,
             autoIncrement: true
         },
         userId: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            unique: true
         },
         name: {
             type: Sequelize.STRING

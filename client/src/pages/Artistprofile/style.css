@@ -1,3 +1,9 @@
+.background {
+    background-color: #cccccc;
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
 .artist-summary {
     background-color: #ffffff; /* Grey background */
     position: fixed; /* Fixed position - sit on top of the page */
@@ -15,8 +21,12 @@
 
 .timeline-section {
     background-color: #cccccc;
-    margin-top: 330px;
-    padding: 30px 0 40px 0;
+    padding: 370px 0 40px 0;
+}
+
+.timeline-section-auth {
+    background-color: #cccccc;
+    padding: 440px 0 40px 0;
 }
 
 .bio-btn {

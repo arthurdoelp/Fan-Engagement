@@ -5,6 +5,7 @@ const router = express.Router();
 const {
     showEventDetailsController,
     showAllEventsController,
+    createEventController,
     // activationController,
     // loginController,
     // forgotPasswordController,
@@ -16,6 +17,7 @@ const {
 
 router.post('/event/details/show', showEventDetailsController);
 router.post('/event/details/all', showAllEventsController);
+router.post('/event/create', createEventController);
 // router.post('/auth/login', validLogin, loginController);
 // router.post('/auth/activation', activationController);
 // router.put('/auth/password/forgot', forgotPasswordValidator, forgotPasswordController);

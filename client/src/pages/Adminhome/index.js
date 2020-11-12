@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { isAuth, authenticate } from '../../helpers/auth';
+import { isAuth } from '../../helpers/auth';
 import axios from 'axios';
 import moment from 'moment';
 import Alert from '../../components/Alert/index';
 import './style.css';
-// import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class Adminhome extends Component {
     constructor() {
@@ -39,7 +39,7 @@ class Adminhome extends Component {
 
     render() {
 
-        const { errorAlert, search, events } = this.state
+        const { errorAlert, search } = this.state
 
 
         // Handle change from inputs
@@ -64,43 +64,10 @@ class Adminhome extends Component {
             this.props.history.push('/create/event')
         }
 
-        // Submit data to backend
-        // const handleSubmit = e => {
-
-        //     e.preventDefault()
-        //     // This if statement is a fallback for if for some reason the user is able to click the disabled button,
-        //     // in order to post the same conditions of all fields and validations need to apply
-        //     if (email && password && hasNum && hasSpecial && hasMin) {
-        //         axios.post('/fan/api/admin/login', {
-        //             email, password
-        //         }).then(res => {
-        //             console.log(res.data.user)
-        //             const id = res.data.user.id
-        //             this.setState({
-        //                 password: ''
-        //             });
-
-        //             authenticate(res, () => { })
-
-        //             if (isAuth() && res.data.user.role === "admin") {
-        //                 // Direct the page to the create artist profile page
-        //                 this.props.history.push(`/admin/home`);
-        //             }
-        //         })
-        //             .catch(err => {
-        //                 // Display the error if there is an error
-        //                 this.setState({ errorAlert: err.response.data.errors })
-        //             });
-        //     } else {
-        //         // Display the error if there is an error
-        //         this.setState({ errorAlert: "Please fill all fields" })
-        //     }
-        // }
-
         return (
             <div>
                 {/* This will redirect the user if they are logged in to go to the home page, otherwise nothing */}
-                {/* {isAuth() ? <Redirect to='/' /> : null} */}
+                {isAuth() ? null : <Redirect to='/login/admin' />}
                 <div className="container">
 
                     <Alert

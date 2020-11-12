@@ -1,22 +1,37 @@
-.add-performer-button {
-    width: 100%;
-    padding: .5em 0;
-    border: #039842 dashed 1px;
+.performer-button {
+    border: #039842 solid 1px;
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: white;
     color: #039842;
+    padding: .5em .5em;
+    margin: .25em .25em;
+    font-size: 1.25em;
 }
 
-.add-performer-button:hover {
-    border-color: #03be51;
-    color: #03be51;
+.vertical-menu {
+    height: 200px;
+    overflow-y: auto;
+    border: #cccccc solid 1px;
+    border-radius: 4px;
 }
 
-.add-performer-button:focus {
+.vertical-menu button {
+    background-color: #ffffff;
+    border-bottom: #CCCCCC solid 1px;
+    display: block;
+    padding: .5em 2em;
+    text-decoration: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+    text-align: left;
+}
+  
+.vertical-menu button:hover {
+    background-color: #f9f9f9;
+}
+
+.vertical-menu button:enabled {
     outline: none;
-}
-
-.add-performer-button:disabled {
-    border-color: #03984179;
-    color: #03984179;
 }

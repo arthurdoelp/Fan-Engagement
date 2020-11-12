@@ -30,7 +30,7 @@ exports.showEventDetailsController = (req, res) => {
                     },
                     include: {
                         model: Artist,
-                        attributes: ['name', 'userId', 'venmo', 'facebook', 'instagram', 'twitter', 'spotify', 'soundcloud']
+                        attributes: ['userId', 'name', 'venmo', 'facebook', 'instagram', 'twitter', 'spotify', 'soundcloud']
                     }
                 }).then(artists => {
                     console.log(artists)
@@ -68,6 +68,63 @@ exports.showAllEventsController = (req, res) => {
         console.log(err)
         res.status(400).json({
             errors: "There was an issue finding all of the events in the system"
+        })
+    })
+}
+
+exports.createEventController = (req, res) => {
+    const { userId, date, city, address, seats, performers } = req.body;
+    console.log(userId, date, city, address, seats, performers);
+
+    const eventData = {
+        date,
+        city,
+        address,
+        seats: Math.round(seats),
+        createdBy: userId,
+        updatedBy: userId
+    }
+
+    Event.create(eventData).then(event => {
+        Artist.findAll({
+            attributes: ['userId'],
+            where: {
+                [Op.or]: [
+                    { name: performers }
+                ]
+            }
+        }).then(artists => {
+            console.log(artists)
+            console.log(artists.length)
+            const eventArtistData = [];
+            for (let i = 0; i < artists.length; i++) {
+                eventArtistData.push({
+                    artistUserId: artists[i].userId,
+                    eventId: event.dataValues.id
+                })
+            }
+            console.log(eventArtistData)
+            Event_Artist.bulkCreate(eventArtistData).then(eventArtists => {
+                return res.json({
+                    event
+                })
+            }).catch(err => {
+                console.log(err)
+                return res.status(400).json({
+                    errors: "There was an issue bulk creating the event artists records in the system"
+                })
+            })
+
+        }).catch(err => {
+            console.log(err)
+            return res.status(400).json({
+                errors: "There was an issue finding all of the artist ids in the system"
+            })
+        })
+    }).catch(err => {
+        console.log(err)
+        return res.status(400).json({
+            errors: "There was an issue creating the new event"
         })
     })
 }

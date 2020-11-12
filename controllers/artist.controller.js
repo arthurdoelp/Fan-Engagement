@@ -28,7 +28,7 @@ exports.showArtistDetailsController = (req, res) => {
                 Event_Artist.findAll({
                     attributes: [],
                     where: {
-                        artistId: artistId
+                        artistUserId: artistId
                     },
                     include: {
                         model: Event,
@@ -176,4 +176,19 @@ exports.editArtistProfileController = (req, res) => {
                 errors: "There was an issue finding the artist in the system"
             })
         })
+}
+
+exports.allArtistNamesController = (req, res) => {
+    Artist.findAll({
+        attributes: ['name']
+    }).then(artists => {
+        return res.json({
+            artists
+        })
+    }).catch(err => {
+        console.log(err)
+        return res.status(400).json({
+            errors: "There was an issue finding all of the artist names in the system."
+        })
+    })
 }

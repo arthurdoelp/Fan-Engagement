@@ -85,7 +85,7 @@ class Event extends Component {
         }
 
         return (
-            <div>
+            <div className="background">
                 {/* {isAuth() ? <Redirect to='/' /> : null} */}
                 <div className="artist-summary">
                     <div className="artist-info">
@@ -151,7 +151,7 @@ class Event extends Component {
                         handleErrorAlert={handleErrorAlert}
                     />
 
-                    <div className="row timeline-section">
+                    <div className={isAuth() ? "row timeline-section-auth" : "row timeline-section"}>
                         <div className="col-1"></div>
                         <div className="col-10">
 

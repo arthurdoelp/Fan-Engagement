@@ -78,7 +78,7 @@ class Adminlogin extends Component {
                     email, password
                 }).then(res => {
                     console.log(res.data.user)
-                    const id = res.data.user.id
+                    // const id = res.data.user.id
                     this.setState({
                         password: ''
                     });
@@ -118,7 +118,6 @@ class Adminlogin extends Component {
                                 {/* Title section w/ logo */}
                                 <div className="row">
                                     <div className="col text-center">
-                                        {/* <img src="./../../images/Brits-Wine-Logo-200w.png" alt="Sofar Sounds Logo" width="100px" className="mt-3 mb-3" /> */}
                                         <h6>Admin</h6>
                                         <h3>
                                             Login
